@@ -1,32 +1,49 @@
-export const optimizeText = (text, setOptimizedText) => {
-    const apiKey = '0cc1bd7dee85113504b05933dd543e4c.glXfJ24l00qHQS6u';
-    const url = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
-    const data = {
-      model: 'glm-4-flash',
-      messages: [
-        {
-          role: 'user',
-          content: `Please optimize the following transcribed text to make it smoother, more natural, and correct any errors:\n${text}`
+import { callGminiApi } from './aiApi/gminiApi';
+import { callGlmApi } from './aiApi/glmApi';
+
+// 优化文本函数，支持Gmini和GLM API
+export const optimizeText = (text, setOptimizedText, apiType = 'gmini') => {
+  const prompt = `Please optimize the following transcribed text to make it smoother, more natural, and correct any errors:\n${text}`;
+  const apiCall = apiType === 'gmini' ? callGminiApi(prompt) : callGlmApi(prompt);
+
+  apiCall
+    .then((result) => {
+      console.log(`${apiType} API response:`, result);
+      let optimizedText = '';
+
+      if (apiType === 'gmini') {
+        if (
+          result &&
+          result.candidates &&
+          result.candidates[0] &&
+          result.candidates[0].content &&
+          result.candidates[0].content.parts &&
+          result.candidates[0].content.parts[0]
+        ) {
+          optimizedText = result.candidates[0].content.parts[0].text;
+        } else {
+          throw new Error('Unexpected Gmini API response structure');
         }
-      ],
-      max_tokens: 200,
-      temperature: 0.7
-    };
-  
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
+      } else if (apiType === 'glm') {
+        if (
+          result &&
+          result.choices &&
+          result.choices[0] &&
+          result.choices[0].message &&
+          result.choices[0].message.content
+        ) {
+          optimizedText = result.choices[0].message.content;
+        } else {
+          throw new Error('Unexpected GLM API response structure');
+        }
+      } else {
+        throw new Error('Unsupported API type');
+      }
+
+      setOptimizedText(optimizedText);
     })
-    .then(response => response.json())
-    .then(result => {
-      setOptimizedText(result.choices[0].message.content);
-    })
-    .catch(error => {
-      console.error('API call failed:', error);
+    .catch((error) => {
+      console.error(`${apiType} API call failed:`, error);
       setOptimizedText('Optimization failed, please try again later');
     });
-  };
+};

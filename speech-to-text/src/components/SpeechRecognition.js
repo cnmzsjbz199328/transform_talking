@@ -54,7 +54,7 @@ function SpeechRecognition({ setOptimizedText }) {
             setWordCount(words.length);
 
             // 检查条件
-            if (words.length >= 100 && updated.includes('.')) {
+            if (words.length >= 20 && updated.includes('.')) {
               recognitionInstance.stop();
               optimizeText(updated, setOptimizedText);
             }
