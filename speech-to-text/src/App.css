@@ -1,19 +1,24 @@
+/* App.css */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 20px;
   background-color: #f0f0f0;
+  color: #333;
 }
 
 .container {
   display: flex;
+  flex-wrap: wrap; /* 响应式支持折行 */
   gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.left-panel, .right-panel {
+.leftPanel,
+.rightPanel {
   flex: 1;
+  min-width: 300px; /* 最小宽度，防止过窄 */
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
@@ -21,8 +26,10 @@ body {
 }
 
 h2 {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   color: #333;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 button {
@@ -33,6 +40,12 @@ button {
   cursor: pointer;
   background-color: #007bff;
   color: #fff;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3;
 }
 
 button:disabled {
@@ -40,7 +53,8 @@ button:disabled {
   cursor: not-allowed;
 }
 
-.transcript-box, .optimized-box {
+.transcriptBox,
+.optimizedBox {
   min-height: 200px;
   max-height: 400px;
   overflow-y: auto;
@@ -49,4 +63,6 @@ button:disabled {
   border: 1px solid #ddd;
   border-radius: 4px;
   white-space: pre-wrap;
+  font-size: 1rem;
+  line-height: 1.5;
 }

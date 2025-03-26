@@ -6,7 +6,7 @@ export const callGlmApi = (text) => {
       messages: [
         {
           role: 'user',
-          content: `Please optimize the following transcribed text to make it smoother, more natural, and correct any errors:\n${text}`
+          content: text
         }
       ],
       max_tokens: 200,
