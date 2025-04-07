@@ -21,7 +21,7 @@ function SpeechRecognition({ setOptimizedText }) {
     recognitionInstance.continuous = true;
     recognitionInstance.interimResults = true;
 
-    let accumulatedFinalTranscript = ''; // 累积所有最终结果
+    let accumulatedFinalTranscript = '';
 
     recognitionInstance.onresult = (event) => {
       let interimTranscript = '';

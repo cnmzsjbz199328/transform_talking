@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './css/ContentDisplay.module.css'; // 导入 CSS Modules
+import styles from './css/ContentDisplay.module.css'; // Import CSS Modules
 
 const ContentDisplay = () => {
   const [data, setData] = useState([]);
@@ -30,17 +30,17 @@ const ContentDisplay = () => {
     localStorage.clear();
     setData([]);
     setExpandedIndex(null);
-    console.log('localStorage 已清空');
+    console.log('localStorage has been cleared');
   };
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.heading}>目录</h3>
+      <h3 className={styles.heading}>Directory</h3>
       <button className={styles.clearButton} onClick={handleClearStorage}>
-        清空存储
+        Clear Storage
       </button>
       {data.length === 0 ? (
-        <p className={styles.noContent}>暂无内容</p>
+        <p className={styles.noContent}>No content available</p>
       ) : (
         <ul className={styles.list}>
           {data.map((item, index) => (
@@ -49,11 +49,11 @@ const ContentDisplay = () => {
                 className={styles.mainPoint}
                 onClick={() => handleToggle(index)}
               >
-                {item.mainPoint || '未提供主旨'}
+                {item.mainPoint || 'Main point not provided'}
               </div>
               {expandedIndex === index && (
                 <div className={styles.content}>
-                  <p>{item.content || '未提供内容'}</p>
+                  <p>{item.content || 'Content not provided'}</p>
                 </div>
               )}
             </li>
