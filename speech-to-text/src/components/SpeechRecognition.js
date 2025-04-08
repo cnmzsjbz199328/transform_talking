@@ -1,9 +1,11 @@
-// filepath: c:\Users\tj169\OneDrive - Flinders\Semester4\COMP9033 Cloud and Distributed Computing\API Test\zhipu\speech-to-text\src\components\SpeechRecognition.js
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { optimizeText } from './utils';
 import styles from './css/SpeechRecognition.module.css';
+import BackgroundInfo from './BackgroundInfo';
+import { useBackgroundContext } from '../context/BackgroundContext';
 
 function SpeechRecognition({ setOptimizedText }) {
+  const { savedBackground } = useBackgroundContext();
   const [currentTranscript, setCurrentTranscript] = useState('');
   const [fullTranscript, setFullTranscript] = useState('');
   const [wordCount, setWordCount] = useState(0);
@@ -11,21 +13,58 @@ function SpeechRecognition({ setOptimizedText }) {
   const recognitionRef = useRef(null);
   const optimizationInProgressRef = useRef(false);
   const accumulatedTranscriptRef = useRef('');
-  const isListeningRef = useRef(false); // 添加ref以在回调中访问最新的listening状态
+  const isListeningRef = useRef(false);
+  const savedBackgroundRef = useRef(savedBackground);  // 添加一个ref来跟踪背景信息
+  
+  // 当savedBackground变化时，更新ref
+  useEffect(() => {
+    savedBackgroundRef.current = savedBackground;
+    console.log('Background ref updated to:', savedBackground);
+  }, [savedBackground]);
 
   // 当isListening状态变化时，同步更新ref值
   useEffect(() => {
     isListeningRef.current = isListening;
   }, [isListening]);
 
-  // 优化逻辑包装为useCallback，避免重复创建
+  // 处理 aborted 错误 - 将定义移到使用前
+  const handleAbortedError = useCallback(() => {
+    console.log('Recognition was aborted, attempting to recover...');
+    
+    // 避免立即重启，给一点延迟
+    setTimeout(() => {
+      if (isListeningRef.current && recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+          setTimeout(() => {
+            if (isListeningRef.current) {
+              recognitionRef.current.start();
+              console.log('Successfully restarted after abort');
+            }
+          }, 500);
+        } catch (e) {
+          console.error('Failed to restart after abort:', e);
+          setIsListening(false);
+        }
+      }
+    }, 1000);
+  }, []);
+
+  // 优化逻辑包装为useCallback，确保每次调用时都获取最新的背景信息
   const handleOptimization = useCallback((text) => {
     try {
       optimizationInProgressRef.current = true;
       
-      return optimizeText(text, setOptimizedText)
+      // 直接从ref读取最新的背景信息
+      const currentBackground = savedBackgroundRef.current;
+      
+      // 增加显式日志
+      console.log('OPTIMIZATION REQUEST WITH BACKGROUND:', currentBackground);
+      
+      return optimizeText(text, setOptimizedText, 'gmini', currentBackground)
         .then(result => {
           console.log('Optimization successful:', result);
+          console.log('Background info used:', currentBackground ? 'Yes' : 'No');
           return result;
         })
         .catch(error => {
@@ -41,9 +80,9 @@ function SpeechRecognition({ setOptimizedText }) {
     } catch (e) {
       console.error('Fatal error in handleOptimization:', e);
       optimizationInProgressRef.current = false;
-      return Promise.resolve(); // 返回一个已解决的promise，防止链式调用出错
+      return Promise.resolve();
     }
-  }, [setOptimizedText]);
+  }, [setOptimizedText]); // 移除savedBackground依赖，避免闭包问题
 
   // 初始化语音识别
   useEffect(() => {
@@ -76,8 +115,8 @@ function SpeechRecognition({ setOptimizedText }) {
         }
       }
 
-      console.log('Current Final:', finalTranscript);
-      console.log('Interim:', interimTranscript);
+      //console.log('Current Final:', finalTranscript);
+      //console.log('Interim:', interimTranscript);
 
       // 更新当前转录（显示最新结果）
       setCurrentTranscript(finalTranscript || interimTranscript);
@@ -116,6 +155,13 @@ function SpeechRecognition({ setOptimizedText }) {
 
     recognitionInstance.onerror = (event) => {
       console.error('Speech recognition error:', event.error);
+      
+      // 特殊处理aborted错误
+      if (event.error === 'aborted') {
+        handleAbortedError();
+        return;
+      }
+      
       // 只在非暂时性错误时停止
       if (event.error !== 'no-speech') {
         setIsListening(false);
@@ -157,7 +203,7 @@ function SpeechRecognition({ setOptimizedText }) {
         }
       }
     };
-  }, [handleOptimization]); // 现在只依赖于handleOptimization，解决了ESLint警告
+  }, [handleOptimization, handleAbortedError]);
 
   // 监听isListening状态变化，控制录音
   useEffect(() => {
@@ -207,6 +253,10 @@ function SpeechRecognition({ setOptimizedText }) {
   return (
     <div className={styles.leftPanel}>
       <h2 className={styles.heading}>Speech Transcription</h2>
+      
+      {/* BackgroundInfo 不再需要传递 props */}
+      <BackgroundInfo />
+      
       <button
         onClick={startRecognition}
         disabled={isListening}

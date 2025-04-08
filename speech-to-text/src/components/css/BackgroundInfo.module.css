@@ -1,0 +1,132 @@
+.container {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.heading {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.saveStatus {
+  color: #28a745;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  background-color: rgba(40, 167, 69, 0.1);
+  border-radius: 4px;
+}
+
+.description {
+  margin-bottom: 12px;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.textarea:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.saveButton {
+  align-self: flex-end;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.saveButton:hover:not(:disabled) {
+  background-color: #0069d9;
+}
+
+.saveButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.savedInfo {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: rgba(0, 123, 255, 0.05);
+  border-left: 3px solid #007bff;
+  border-radius: 0 4px 4px 0;
+}
+
+.savedHeading {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 0.95rem;
+  color: #0056b3;
+}
+
+.savedText {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+  white-space: pre-wrap;
+}
+
+/* 添加以下CSS样式 */
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.clearButton {
+  padding: 8px 16px;
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.clearButton:hover:not(:disabled) {
+  background-color: #5a6268;
+}
+
+.clearButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
