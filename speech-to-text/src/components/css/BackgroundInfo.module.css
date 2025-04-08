@@ -4,6 +4,7 @@
   background-color: #f8f9fa;
   border-radius: 8px;
   border: 1px solid #e9ecef;
+  margin-bottom: 25px;
 }
 
 .headerContainer {
@@ -15,24 +16,24 @@
 
 .heading {
   margin-top: 0;
-  margin-bottom: 0;
-  color: #333;
+  margin-bottom: 8px;
+  color: var(--dark);
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .saveStatus {
-  color: #28a745;
+  color: var(--success);
   font-size: 0.9rem;
   font-weight: 600;
   padding: 3px 8px;
-  background-color: rgba(40, 167, 69, 0.1);
+  background-color: rgba(76, 201, 240, 0.1);
   border-radius: 4px;
 }
 
 .description {
   margin-bottom: 12px;
-  color: #6c757d;
+  color: var(--gray);
   font-size: 0.9rem;
 }
 
@@ -45,35 +46,36 @@
 
 .textarea {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 0.95rem;
+  border: 1px solid var(--light-gray);
+  border-radius: var(--border-radius);
+  font-size: 15px;
   line-height: 1.5;
   resize: vertical;
-  transition: border-color 0.15s ease-in-out;
+  transition: var(--transition);
+  background-color: white;
+  min-height: 120px;
 }
 
 .textarea:focus {
-  border-color: #80bdff;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
 }
 
 .saveButton {
   align-self: flex-end;
   padding: 8px 16px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: var(--success);
+  color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   font-size: 0.9rem;
-  transition: background-color 0.2s ease;
+  transition: var(--transition);
 }
 
 .saveButton:hover:not(:disabled) {
-  background-color: #0069d9;
+  background-color: #3db8de;
 }
 
 .saveButton:disabled {
@@ -81,25 +83,36 @@
   cursor: not-allowed;
 }
 
+.saveButton i {
+  margin-right: 5px;
+}
+
 .savedInfo {
   margin-top: 15px;
-  padding: 10px;
-  background-color: rgba(0, 123, 255, 0.05);
-  border-left: 3px solid #007bff;
+  padding: 15px;
+  background-color: rgba(76, 201, 240, 0.1);
+  border-left: 3px solid var(--success);
   border-radius: 0 4px 4px 0;
 }
 
 .savedHeading {
   margin-top: 0;
-  margin-bottom: 5px;
-  font-size: 0.95rem;
-  color: #0056b3;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+}
+
+.savedHeading i {
+  margin-right: 10px;
+  color: var(--success);
 }
 
 .savedText {
   margin: 0;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--gray);
   white-space: pre-wrap;
 }
 
@@ -113,13 +126,13 @@
 
 .clearButton {
   padding: 8px 16px;
-  background-color: #6c757d;
-  color: #fff;
+  background-color: var(--gray);
+  color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   font-size: 0.9rem;
-  transition: background-color 0.2s ease;
+  transition: var(--transition);
 }
 
 .clearButton:hover:not(:disabled) {
@@ -127,6 +140,15 @@
 }
 
 .clearButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.clearButton i {
+  margin-right: 5px;
+}
+
+.saveButton:disabled, .clearButton:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }

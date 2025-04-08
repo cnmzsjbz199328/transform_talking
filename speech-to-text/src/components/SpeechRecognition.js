@@ -251,48 +251,70 @@ function SpeechRecognition({ setOptimizedText }) {
   };
 
   return (
-    <div className={styles.leftPanel}>
-      <h2 className={styles.heading}>Speech Transcription</h2>
+    <div>
+      <div className={styles.panelHeader}>
+        <h2 className={styles.heading}>
+          <i className="fas fa-microphone"></i> Voice Recognition
+        </h2>
+      </div>
       
-      {/* BackgroundInfo 不再需要传递 props */}
       <BackgroundInfo />
       
-      <button
-        onClick={startRecognition}
-        disabled={isListening}
-        className={`${styles.button} ${isListening ? styles.buttonDisabled : ''}`}
-      >
-        Start Recording
-      </button>
-      <button
-        onClick={stopRecognition}
-        disabled={!isListening}
-        className={`${styles.button} ${!isListening ? styles.buttonDisabled : ''}`}
-      >
-        Stop Recording
-      </button>
+      {/* Add audio visualization */}
+      <div className={`${styles.audioVisualizer} ${isListening ? styles.recording : ''}`} id="audioVisualizer">
+        <div className={styles.audioBars} id="audioBars">
+          {Array(40).fill().map((_, i) => (
+            <div 
+              key={i}
+              className={styles.audioBar} 
+              style={{
+                height: `${Math.floor(Math.random() * 30) + 10}%`,
+                animationDelay: `${i % 2 === 0 ? i * 0.05 : i * 0.03}s`
+              }}
+            ></div>
+          ))}
+        </div>
+      </div>
+      
+      <div className={styles.btnGroup}>
+        <button
+          onClick={startRecognition}
+          disabled={isListening}
+          className={`${styles.button} ${styles.startButton} ${isListening ? styles.buttonDisabled : ''}`}
+        >
+          <i className="fas fa-microphone"></i> Start Recording
+        </button>
+        <button
+          onClick={stopRecognition}
+          disabled={!isListening}
+          className={`${styles.button} ${styles.stopButton} ${!isListening ? styles.buttonDisabled : ''}`}
+        >
+          <i className="fas fa-stop"></i> Stop Recording
+        </button>
+      </div>
+      
+      {isListening && (
+        <div className={styles.recordingStatus}>
+          <span className={styles.pulse}></span> Recording...
+        </div>
+      )}
+      
       <div className={styles.currentBox}>
-        <h3 className={styles.heading}>Current Result</h3>
-        <input
-          type="text"
-          value={currentTranscript}
-          readOnly
-          className={styles.singleLine}
-          placeholder="Current transcription..."
-        />
+        <label className={styles.boxHeading}>Current Recognition Result</label>
+        <div className={styles.singleLine}>
+          {currentTranscript || 'Waiting for recording to start...'}
+        </div>
       </div>
+      
       <div className={styles.fullBox}>
-        <h3 className={styles.heading}>Full Transcript</h3>
-        <textarea
-          value={fullTranscript}
-          readOnly
-          className={styles.multiLine}
-          placeholder="Full transcription here..."
-        />
+        <label className={styles.boxHeading}>Full Transcript</label>
+        <div className={styles.multiLine}>
+          {fullTranscript || 'No full transcript available yet'}
+        </div>
+        <div className={styles.wordCount}>
+          Word Count: <span>{wordCount}</span>
+        </div>
       </div>
-      <p>
-        Word Count: <span>{wordCount}</span>
-      </p>
     </div>
   );
 }

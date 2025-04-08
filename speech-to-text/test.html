@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Transcription</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 90%;
+            max-width: 600px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        input[type="file"], button {
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        input[type="file"] {
+            background: #f0f2f5;
+            cursor: pointer;
+        }
+        input[type="file"]:hover {
+            background: #e4e6eb;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+        }
+        .transcription-output {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            min-height: 100px;
+            color: #555;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+        .transcription-output:hover {
+            background: #f1f3f5;
+        }
+        .loading {
+            text-align: center;
+            color: #007bff;
+            font-style: italic;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Voice Transcription</h1>
+        <div class="input-section">
+            <input type="file" id="audioInput" accept="audio/*" />
+            <button onclick="startTranscription()">Begin</button>
+        </div>
+        <div class="loading" id="loading">Working...</div>
+        <div class="transcription-output" id="output">
+            Result will appear here.
+        </div>
+    </div>
+
+    <script>
+        // 示例交互逻辑（可根据你的后端实现调整）
+        function startTranscription() {
+            const loading = document.getElementById('loading');
+            const output = document.getElementById('output');
+            loading.style.display = 'block';
+            output.textContent = '...';
+
+            // 模拟转录过程
+            setTimeout(() => {
+                loading.style.display = 'none';
+                output.textContent = '示例转录结果：这是一个现代化的语音转录界面！';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

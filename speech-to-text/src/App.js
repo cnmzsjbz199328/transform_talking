@@ -10,8 +10,13 @@ function App() {
 
   return (
     <BackgroundProvider>
+      <div className="header">
+        <h1>Be a lazy dog</h1>
+        <p>I want to earn money without hard work</p>
+      </div>
+      
       <div className="container">
-        <ContentDisplay /> {/* 独立组件，使用自己的样式 */}
+        <ContentDisplay />
         <div className="leftPanel">
           <SpeechRecognition setOptimizedText={setOptimizedText} />
         </div>

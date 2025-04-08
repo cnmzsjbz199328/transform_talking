@@ -66,49 +66,48 @@ function BackgroundInfo() {
     }, 3000);
   };
 
-  return (
+return (
     <div className={styles.container}>
-      <div className={styles.headerContainer}>
-        <h3 className={styles.heading}>Background Information</h3>
-        {saveStatus && <span className={styles.saveStatus}>{saveStatus}</span>}
-      </div>
-      <p className={styles.description}>
-        Add contextual information to improve transcription optimization.
-        <strong> Click Save to apply changes.</strong>
-      </p>
-      <div className={styles.inputContainer}>
+        <div className={styles.headerContainer}>
+            <label className={styles.heading}>Background Information</label>
+            {saveStatus && <span className={styles.saveStatus}>{saveStatus}</span>}
+        </div>
+        
         <textarea
-          value={editedBackground}
-          onChange={handleChange}
-          className={styles.textarea}
-          placeholder="Enter background information like topic, domain, technical terms, etc."
-          rows={4}
+            value={editedBackground}
+            onChange={handleChange}
+            className={styles.textarea}
+            placeholder="Add contextual information to improve transcription accuracy (e.g., technical terms, names, etc.)"
+            rows={4}
         />
+        
         <div className={styles.buttonContainer}>
-          <button 
-            onClick={handleClear}
-            className={styles.clearButton}
-            disabled={!editedBackground && !savedBackground}
-          >
-            Clear
-          </button>
-          <button 
-            onClick={handleSave}
-            className={styles.saveButton}
-            disabled={editedBackground.trim() === savedBackground}
-          >
-            Save Background Info
-          </button>
+            <button 
+                onClick={handleClear}
+                className={styles.clearButton}
+                disabled={!editedBackground && !savedBackground}
+            >
+                <i className="fas fa-eraser"></i> Clear
+            </button>
+            <button 
+                onClick={handleSave}
+                className={styles.saveButton}
+                disabled={editedBackground.trim() === savedBackground}
+            >
+                <i className="fas fa-save"></i> Save Background Information
+            </button>
         </div>
-      </div>
-      {savedBackground && (
-        <div className={styles.savedInfo}>
-          <h4 className={styles.savedHeading}>Active Background Info:</h4>
-          <p className={styles.savedText}>{savedBackground}</p>
-        </div>
-      )}
+        
+        {savedBackground && (
+            <div className={styles.savedInfo}>
+                <h4 className={styles.savedHeading}>
+                    <i className="fas fa-info-circle"></i> Active Background Information
+                </h4>
+                <p className={styles.savedText}>{savedBackground}</p>
+            </div>
+        )}
     </div>
-  );
+);
 }
 
 export default BackgroundInfo;

@@ -1,0 +1,91 @@
+.container {
+  padding: 0;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.heading i {
+  margin-right: 10px;
+  color: var(--primary);
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 20px;
+  margin-left: auto;
+}
+
+.badgePrimary {
+  background-color: rgba(67, 97, 238, 0.1);
+  color: var(--primary);
+}
+
+.tabContainer {
+  margin-bottom: 20px;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--light-gray);
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+.tabActive {
+  border-bottom-color: var(--primary);
+  color: var(--primary);
+}
+
+.contentBox {
+  background-color: var(--light);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  border: 1px solid var(--light-gray);
+  white-space: pre-wrap;
+  font-size: 1rem;
+  line-height: 1.5;
+  position: relative;
+}
+
+.boxLabel {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--dark);
+}
+
+.copyButton {
+  position: absolute;
+  bottom: 0px;
+  right:0px;
+  background: none;
+  border: none;
+  color: var(--gray);
+  cursor: pointer;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.copyButton:hover {
+  color: var(--primary);
+}

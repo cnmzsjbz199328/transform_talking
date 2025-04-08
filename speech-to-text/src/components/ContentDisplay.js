@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './css/ContentDisplay.module.css'; // Import CSS Modules
+import styles from './css/ContentDisplay.module.css';
 
 const ContentDisplay = () => {
   const [data, setData] = useState([]);
@@ -27,33 +27,42 @@ const ContentDisplay = () => {
   };
 
   const handleClearStorage = () => {
-    localStorage.clear();
-    setData([]);
-    setExpandedIndex(null);
-    console.log('localStorage has been cleared');
+    if (window.confirm('Are you should？')) {
+      localStorage.clear();
+      setData([]);
+      setExpandedIndex(null);
+      console.log('localStorage has been cleared');
+    }
   };
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.heading}>Directory</h3>
-      <button className={styles.clearButton} onClick={handleClearStorage}>
-        Clear Storage
-      </button>
+      <h2 className={styles.heading}>
+        <i className="fas fa-history"></i> History Records
+      </h2>
+      
+      <div className={styles.toolbar}>
+        <button className={styles.clearButton} onClick={handleClearStorage}>
+          <i className="fas fa-trash"></i> Clean History
+        </button>
+      </div>
+      
       {data.length === 0 ? (
-        <p className={styles.noContent}>No content available</p>
+        <p className={styles.noContent}>No history records</p>
       ) : (
         <ul className={styles.list}>
           {data.map((item, index) => (
             <li key={index} className={styles.item}>
               <div
-                className={styles.mainPoint}
+                className={`${styles.mainPoint} ${expandedIndex === index ? styles.expanded : ''}`}
                 onClick={() => handleToggle(index)}
               >
-                {item.mainPoint || 'Main point not provided'}
+                <i className={`fas ${expandedIndex === index ? 'fa-chevron-right' : 'fa-chevron-right'}`}></i>
+                {item.mainPoint || 'No main point'}
               </div>
               {expandedIndex === index && (
                 <div className={styles.content}>
-                  <p>{item.content || 'Content not provided'}</p>
+                  <p>{item.content || 'No Content'}</p>
                 </div>
               )}
             </li>
@@ -62,6 +71,6 @@ const ContentDisplay = () => {
       )}
     </div>
   );
-};
+}
 
 export default ContentDisplay;
