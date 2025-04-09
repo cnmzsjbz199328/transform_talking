@@ -61,7 +61,7 @@ function SpeechRecognition({ setOptimizedText }) {
       // 增加显式日志
       console.log('OPTIMIZATION REQUEST WITH BACKGROUND:', currentBackground);
       
-      return optimizeText(text, setOptimizedText, 'gmini', currentBackground)
+      return optimizeText(text, setOptimizedText, 'mistral_pixtral', currentBackground)
         .then(result => {
           console.log('Optimization successful:', result);
           console.log('Background info used:', currentBackground ? 'Yes' : 'No');

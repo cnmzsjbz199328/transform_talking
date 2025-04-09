@@ -22,6 +22,11 @@
     position: relative;
 }
 
+.singleLine {
+    height: 20px;
+    resize: none;
+}
+
 .multiLine {
     min-height: 150px;
     resize: none;
