@@ -5,17 +5,19 @@ import styles from '../css/SpeechRecognition.module.css';
 export const CurrentTranscriptBox = ({ currentTranscript, transcriptKey }) => (
   <div className={styles.currentBox}>
     <label className={styles.boxHeading}>Current Recognition Result</label>
-    <div className={styles.realTimeTranscript}>
-      {currentTranscript ? (
-        <span key={transcriptKey} className={styles.liveText}>
-          {currentTranscript}
-        </span>
-      ) : (
-        <span className={styles.placeholderText}>
-          Waiting for speech...
-        </span>
-      )}
-      <span className={styles.cursor}></span>
+    <div className={styles.scrollContainer}>
+      <div className={styles.realTimeTranscript}>
+        {currentTranscript ? (
+          <span key={transcriptKey} className={styles.liveText}>
+            {currentTranscript}
+          </span>
+        ) : (
+          <span className={styles.placeholderText}>
+           
+          </span>
+        )}
+        <span className={styles.cursor}></span>
+      </div>
     </div>
   </div>
 );
