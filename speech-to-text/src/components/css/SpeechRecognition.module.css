@@ -10,7 +10,29 @@
     margin-top: 20px;
 }
 
-.singleLine,
+/* 更新 singleLine 样式 */
+.singleLine {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #444;
+    border-radius: var(--border-radius);
+    background-color: #222;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    position: relative;
+    height: auto;
+    min-height: 60px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #32CD32; /* 亮绿色文字 */
+    font-family: 'Courier New', monospace;
+    box-shadow: 0 0 8px rgba(50, 205, 50, 0.5);
+    text-shadow: 0 0 5px rgba(50, 205, 50, 0.7);
+    letter-spacing: 0.5px;
+    resize: none;
+}
+
 .multiLine {
     width: 100%;
     padding: 15px 0px;
@@ -20,14 +42,6 @@
     font-size: 0.95rem;
     line-height: 1.5;
     position: relative;
-}
-
-.singleLine {
-    height: 20px;
-    resize: none;
-}
-
-.multiLine {
     min-height: 150px;
     resize: none;
 }
@@ -178,4 +192,69 @@
     color: var(--gray);
     margin-top: 5px;
     text-align: right;
+}
+
+/* 添加 打字机动画效果 */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+.rpgText {
+    display: inline-block;
+    overflow: hidden;
+    animation: typing 3.5s steps(40, end);
+    white-space: nowrap;
+    border-right: 2px solid #32CD32;
+    padding-right: 5px;
+    animation: typing 3.5s steps(40, end),
+               blink-caret .75s step-end infinite;
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #32CD32 }
+}
+
+/* 闪烁的光标效果 */
+.cursor {
+    display: inline-block;
+    width: 10px;
+    height: 20px;
+    background-color: #32CD32;
+    animation: blink 1s infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* 添加到 SpeechRecognition.module.css 文件中 */
+.realTimeTranscript {
+  display: flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+.liveText {
+  animation: fadeIn 0.2s ease-in;
+}
+
+.placeholderText {
+  color: #888;
+  font-style: italic;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0.7; }
+  to { opacity: 1; }
 }
