@@ -46,31 +46,30 @@ const MindMap = ({ content, mainPoint }) => {
         const line = lines[i];
         const text = line.trim();
         
-        // Look for root node pattern: root((content)) or line with minimal indentation
+        // 优化根节点识别，确保使用mainPoint
         const rootMatch = text.match(/root\(\((.*?)\)\)/);
         if (rootMatch || (line.search(/\S/) === 2 && i === 0)) {
           const rootId = `node${nodeCounter++}`;
-          const rootContent = rootMatch ? rootMatch[1] : text;
+          // 如果找到根节点匹配，使用匹配内容；否则强制使用mainPoint
+          const rootContent = rootMatch ? rootMatch[1] : mainPoint;
           
           result.push(`    ${rootId}["${rootContent}"]`);
           nodeMap[rootId] = { level: 0, text: rootContent };
           lastNodeAtLevel[0] = rootId;
           rootNodeId = rootId;
           
-          // Remove processed root node
+          // 移除已处理的根节点
           lines.splice(i, 1);
           i--;
           break;
         }
       }
       
-      // Ensure we have a root node
+      // 如果未找到根节点，确保使用mainPoint创建一个
       if (!rootNodeId) {
         const defaultRootId = `node${nodeCounter++}`;
-        // Use mainPoint as the root node text if available
-        const defaultRootText = mainPoint || "Main Topic";
-        result.push(`    ${defaultRootId}["${defaultRootText}"]`);
-        nodeMap[defaultRootId] = { level: 0, text: defaultRootText };
+        result.push(`    ${defaultRootId}["${mainPoint}"]`);
+        nodeMap[defaultRootId] = { level: 0, text: mainPoint };
         lastNodeAtLevel[0] = defaultRootId;
         rootNodeId = defaultRootId;
       }

@@ -58,7 +58,7 @@ const getContextualInfo = () => {
       // Extract mainPoint from the 5 most recent records as key points
       if (Array.isArray(historyRecords) && historyRecords.length > 0) {
         keyPoints = historyRecords
-          .slice(-5) // Last 5 records
+          .slice(-50) // Last 50 records
           .map(record => record.mainPoint)
           .filter(point => point && point.trim() !== '');
       }
@@ -89,12 +89,13 @@ const getContextualInfo = () => {
  * @returns {Promise<string>} - Returns the generated mind map code
  */
 export const generateMindMap = async (content, mainPoint, setProcessingState, apiType = 'gemini') => {
-  // Set processing state
+  // 设置处理状态
   if (setProcessingState) {
     setProcessingState(true);
   }
   
-  // 1. First check cache
+  // 注意：我们仍然使用content作为缓存键，但不将其包含在提示中
+  // 1. 首先检查缓存
   const cachedMindMap = getMindMapFromCache(content, mainPoint);
   if (cachedMindMap) {
     if (setProcessingState) {
@@ -103,13 +104,12 @@ export const generateMindMap = async (content, mainPoint, setProcessingState, ap
     return cachedMindMap;
   }
   
-  // Get contextual information
+  // 获取上下文信息
   const { keyPoints, backgroundInfo } = getContextualInfo();
   
-  // Build prompt template
-  let promptText = `Please convert the following content into a Mermaid mind map format.
-Main point: "${mainPoint}"
-Content: "${content}"`;
+  // 构建提示模板 - 如上所修改
+  let promptText = `Please create a Mermaid mind map about this main point.
+Main point: "${mainPoint}" (IMPORTANT: Use this exact text as the root node title)`;
 
   // If background information exists, add to prompt
   if (backgroundInfo) {
@@ -120,7 +120,7 @@ Please use the above context information to better understand and organize the m
   // If historical key points exist, add to prompt
   if (keyPoints.length > 0) {
     promptText += `\n\nUser's previously focused key topics: ${keyPoints.map(point => `"${point}"`).join(', ')}
-If the new content is related to these topics, you can establish appropriate connections.`;
+If the main point is related to these topics, you can establish appropriate connections.`;
   }
 
   // Add output format requirements
@@ -129,19 +129,20 @@ The generated mind map should have these characteristics:
 1. Use Mermaid syntax
 2. Layout direction: Vertical (TD)
 3. First line must be "mindmap"
-4. Extract 3-5 key points as main nodes, keep it concise
-5. Each main node should have at most 1 child node
-6. Remove special characters like parentheses () and brackets []
-7. Keep node text under 30 characters, be concise and clear
-8. Return only the mind map code, without any explanation or Markdown markup
+4. CRITICAL: Second line must be the root node using the exact main point provided: "  root((${mainPoint}))"
+5. Extract 3-5 key concepts related to the main point, keep it concise
+6. Each concept should have at most 1 child node for detail
+7. Remove special characters like parentheses () and brackets []
+8. Keep node text under 30 characters, be concise and clear
+9. Return only the mind map code, without any explanation or Markdown markup
 
 Output example:
 mindmap
-  root((Main Point))
-    Key Point 1
-      Sub Point 1
-    Key Point 2
-    Key Point 3`;
+  root((${mainPoint}))
+    Key Concept 1
+      Detail 1
+    Key Concept 2
+    Key Concept 3`;
 
   // 2. Add retry logic and API rotation
   let retryCount = 0;
