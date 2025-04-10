@@ -65,6 +65,19 @@ body {
   max-height: 100%; 
 }
 
+/* 为右侧面板添加的样式 */
+.rightPanel {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 确保OptimizedText和MindMap在平板和手机上都能正确显示 */
+@media (max-width: 768px) {
+  .rightPanel {
+    grid-row: 3 / span 1;
+  }
+}
+
 h2 {
   margin-bottom: 15px;
   color: #333;

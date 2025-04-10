@@ -45,4 +45,4 @@ export const API_TYPES = {
 };
 
 // Default settings
-export const DEFAULT_API = API_TYPES.MISTRAL_PIXTRAL; // Which API to use by default
+export const DEFAULT_API = API_TYPES.GEMINI; // Which API to use by default

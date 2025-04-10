@@ -1,27 +1,52 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 import SpeechRecognition from './components/SpeechRecognition';
 import OptimizedText from './components/OptimizedText';
 import ContentDisplay from './components/ContentDisplay';
+import MindMap from './components/MindMap';
 import { BackgroundProvider } from './context/BackgroundContext';
+import './App.css';
 
 function App() {
-  const [optimizedText, setOptimizedText] = useState('');
+  const [optimizedText, setOptimizedText] = useState(null);
+  const [parsedContent, setParsedContent] = useState({
+    content: "Mind Map",
+    mainPoint: "Mind Map"
+  });
+
+  // Parse content when optimized text is updated
+  useEffect(() => {
+    if (optimizedText) {
+      try {
+        const parsed = JSON.parse(optimizedText);
+        setParsedContent(parsed);
+      } catch (e) {
+        console.error('Error parsing optimized text:', e);
+      }
+    }
+  }, [optimizedText]);
 
   return (
     <BackgroundProvider>
-      <div className="header">
-        <h1>Be a lazy dog</h1>
-        <p>I want to earn money without hard work</p>
-      </div>
-      
-      <div className="container">
-        <ContentDisplay />
-        <div className="leftPanel">
-          <SpeechRecognition setOptimizedText={setOptimizedText} />
+      <div className="App">
+        <div className="header">
+          <h1>LazyDog</h1>
+          <p>Speech Recognition & Text Optimization</p>
         </div>
-        <div className="rightPanel">
-          <OptimizedText optimizedText={optimizedText} />
+        
+        <div className="container">
+          <ContentDisplay />
+          
+          <SpeechRecognition setOptimizedText={setOptimizedText} />
+          
+          <div className="rightPanel">
+            <OptimizedText optimizedText={optimizedText} />
+            
+            {/* Always show MindMap component with either default welcome content or parsed content */}
+            <MindMap 
+              content={parsedContent.content} 
+              mainPoint={parsedContent.mainPoint}
+            />
+          </div>
         </div>
       </div>
     </BackgroundProvider>
