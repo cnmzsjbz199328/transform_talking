@@ -55,6 +55,31 @@
   margin-right: 5px;
 }
 
+/* 添加导出按钮样式 */
+.exportButton {
+  padding: 8px 16px;
+  background-color: #4361ee;
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.exportButton:hover {
+  background-color: #3a0ca3;
+}
+
+.exportButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.exportButton i {
+  margin-right: 5px;
+}
+
 .noContent {
   color: var(--gray);
   font-style: italic;

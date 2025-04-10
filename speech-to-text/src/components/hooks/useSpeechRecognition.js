@@ -90,7 +90,7 @@ const useSpeechRecognition = (handleOptimization) => {
         
         // 检查是否达到优化标准
         if (!optimizationInProgressRef.current && 
-            words.length >= 50 && 
+            words.length >= 200 && 
             accumulatedTranscriptRef.current.includes('.')) {
           
           // 达到优化标准时处理当前文本

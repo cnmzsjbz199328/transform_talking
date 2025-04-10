@@ -8,6 +8,7 @@
 .currentBox,
 .fullBox {
     margin-top: 20px;
+    width: 100%;
 }
 
 /* 更新 singleLine 样式 */
@@ -35,15 +36,12 @@
 
 .multiLine {
     width: 100%;
-    padding: 15px 0px;
-    border: 1px solid var(--light-gray);
-    border-radius: var(--border-radius);
-    background-color: var(--light);
+    padding: 15px;
     font-size: 0.95rem;
     line-height: 1.5;
-    position: relative;
-    min-height: 150px;
-    resize: none;
+    min-height: 100px;
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 
 .button {
@@ -276,4 +274,34 @@
 @keyframes scrollText {
   from { transform: translateX(20px); opacity: 0.5; }
   to { transform: translateX(0); opacity: 1; }
+}
+
+/* 添加滚动容器样式 */
+.fullTranscriptContainer {
+  max-height: 200px;
+  overflow-y: auto; /* 关键属性：启用垂直滚动 */
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+  position: relative; /* 添加相对定位 */
+}
+
+/* 自定义滚动条样式 */
+.fullTranscriptContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.fullTranscriptContainer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.fullTranscriptContainer::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.fullTranscriptContainer::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

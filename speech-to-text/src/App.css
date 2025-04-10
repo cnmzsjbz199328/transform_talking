@@ -1,19 +1,32 @@
 /* App.css */
+:root {
+  --border-radius: 8px;
+  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  --transition: all 0.3s ease;
+  --dark: #333;
+  --gray: #666;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 20px;
   background-color: #f0f0f0;
   color: #333;
+  height: 100vh;
+  overflow: hidden; /* 防止整个页面滚动 */
 }
 
 .container {
   max-width: 1200px;
+  height: calc(100vh - 160px); /* 考虑body的padding和header的高度 */
   margin: 0 auto;
   padding: 0px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
+  grid-template-rows: auto 1fr; /* 定义行高 */
+  gap: 10px;
+  overflow: hidden; /* 移除容器的滚动 */
 }
 
 @media (max-width: 1200px) {
@@ -38,12 +51,18 @@ body {
   box-shadow: var(--box-shadow);
   margin-bottom: 20px;
   transition: var(--transition);
+  overflow: hidden; /* 防止这些面板自己滚动 */
 }
 
 .leftPanel:hover,
 .rightPanel:hover {
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
+}
+
+.container > div:first-child {
+  overflow-y: auto; /* 只有第一个子元素(ContentDisplay)可滚动 */
+  max-height: 100%; 
 }
 
 h2 {
