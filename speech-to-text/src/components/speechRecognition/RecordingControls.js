@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../css/SpeechRecognition.module.css';
+import styles from '../css/RecordingControls.module.css';
 
 const RecordingControls = ({ isListening, startRecognition, stopRecognition }) => {
   return (

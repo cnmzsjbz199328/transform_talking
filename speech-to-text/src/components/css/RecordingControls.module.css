@@ -1,0 +1,81 @@
+/* 录音按钮和状态样式 */
+.btnGroup {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.button i {
+  margin-right: 8px;
+}
+
+.startButton {
+  background-color: var(--primary);
+  color: white;
+}
+
+.startButton:hover:not(:disabled) {
+  background-color: var(--secondary);
+}
+
+.stopButton {
+  background-color: #e63946;
+  color: white;
+}
+
+.stopButton:hover:not(:disabled) {
+  background-color: #d62828;
+}
+
+.buttonDisabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.recordingStatus {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: #e63946;
+  margin: 10px 0;
+}
+
+.pulse {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e63946;
+  margin-right: 10px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(230, 57, 70, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(230, 57, 70, 0);
+  }
+}

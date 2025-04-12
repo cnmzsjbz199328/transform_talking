@@ -1,0 +1,155 @@
+/* 文本显示相关样式 */
+.currentBox,
+.fullBox {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.singleLine {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #444;
+  border-radius: var(--border-radius);
+  background-color: #222;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  position: relative;
+  height: auto;
+  min-height: 60px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #32CD32; /* 亮绿色文字 */
+  font-family: 'Courier New', monospace;
+  box-shadow: 0 0 8px rgba(50, 205, 50, 0.5);
+  text-shadow: 0 0 5px rgba(50, 205, 50, 0.7);
+  letter-spacing: 0.5px;
+  resize: none;
+}
+
+.multiLine {
+  width: 100%;
+  padding: 15px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  min-height: 100px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.cursor {
+  display: inline-block;
+  width: 10px;
+  height: 20px;
+  background-color: #000000;
+  animation: blink 1s infinite;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.rpgText {
+  display: inline-block;
+  overflow: hidden;
+  animation: typing 3.5s steps(40, end);
+  white-space: nowrap;
+  border-right: 2px solid #32CD32;
+  padding-right: 5px;
+  animation: typing 3.5s steps(40, end),
+             blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #32CD32 }
+}
+
+.scrollContainer {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0.5rem;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  position: relative;
+  
+  /* 隐藏滚动条但保留功能 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.scrollContainer::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.realTimeTranscript {
+  display: inline-block;
+  min-height: 2.5rem;
+  font-size: 1rem;
+  white-space: nowrap;
+  animation: scrollText 0.3s linear;
+}
+
+.liveText {
+  animation: fadeIn 0.2s ease-in;
+}
+
+.placeholderText {
+  color: #888;
+  font-style: italic;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0.7; }
+  to { opacity: 1; }
+}
+
+@keyframes scrollText {
+  from { transform: translateX(20px); opacity: 0.5; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.fullTranscriptContainer {
+  max-height: 200px;
+  overflow-y: auto; /* 关键属性：启用垂直滚动 */
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+  position: relative; /* 添加相对定位 */
+}
+
+/* 自定义滚动条样式 */
+.fullTranscriptContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.fullTranscriptContainer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.fullTranscriptContainer::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.fullTranscriptContainer::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.transcriptHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}

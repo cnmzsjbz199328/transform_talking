@@ -1,0 +1,44 @@
+/* 基础布局和通用样式 */
+.leftPanel {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.heading i {
+  margin-right: 10px;
+  color: var(--primary);
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.boxHeading {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--dark);
+}
+
+.subHeading {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+}

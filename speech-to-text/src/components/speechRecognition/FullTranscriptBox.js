@@ -1,5 +1,7 @@
 import React from 'react';
-import styles from '../css/SpeechRecognition.module.css';
+import styles from '../css/TranscriptDisplay.module.css';
+import baseStyles from '../css/BaseStyles.module.css';
+import progressStyles from '../css/ProgressSettings.module.css';
 
 const FullTranscriptBox = ({ fullTranscript, wordCount, threshold = 200, onThresholdChange, isListening }) => {
   const transcriptRef = React.useRef(null);
@@ -17,10 +19,10 @@ const FullTranscriptBox = ({ fullTranscript, wordCount, threshold = 200, onThres
   return (
     <div className={styles.fullTranscriptContainer}>
       <div className={styles.transcriptHeader}>
-        <div className={styles.headerLeft}>
-          <h3 className={styles.subHeading}>Full Transcript</h3>
+        <div className={progressStyles.headerLeft}>
+          <h3 className={baseStyles.subHeading}>Full Transcript</h3>
           <select 
-            className={styles.inlineSelect}
+            className={progressStyles.inlineSelect}
             value={threshold}
             onChange={onThresholdChange}
             disabled={isListening}
@@ -34,11 +36,11 @@ const FullTranscriptBox = ({ fullTranscript, wordCount, threshold = 200, onThres
           </select>
         </div>
         
-        <span className={styles.wordCount}>
+        <span className={progressStyles.wordCount}>
           Words: {wordCount}/{threshold} 
-          <div className={styles.progressBarContainer}>
+          <div className={progressStyles.progressBarContainer}>
             <div 
-              className={styles.progressBar} 
+              className={progressStyles.progressBar} 
               style={{ 
                 width: `${progressPercentage}%`,
                 backgroundColor: progressPercentage > 90 ? '#4cc9f0' : '#4361ee'

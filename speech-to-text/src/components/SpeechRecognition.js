@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styles from './css/SpeechRecognition.module.css';
+import baseStyles from './css/BaseStyles.module.css';
 import { useBackgroundContext } from '../context/BackgroundContext';
 import BackgroundInfo from './BackgroundInfo';
 import CurrentTranscriptBox from './speechRecognition/CurrentTranscriptBox';
 import FullTranscriptBox from './speechRecognition/FullTranscriptBox';
-import RecordingControls from './speechRecognition/RecordingControls';// 确保导入可视化器
+import RecordingControls from './speechRecognition/RecordingControls';
 import useSpeechRecognition from './hooks/useSpeechRecognition';
 import useOptimization from './hooks/useOptimization';
 
 function SpeechRecognition({ setOptimizedText }) {
   const { savedBackground } = useBackgroundContext();
   const savedBackgroundRef = useRef(savedBackground);
-  const [wordThreshold, setWordThreshold] = useState(200); // 默认阈值为200
+  const [wordThreshold, setWordThreshold] = useState(200);
   
   // 当savedBackground变化时，更新ref
   useEffect(() => {
@@ -40,8 +40,8 @@ function SpeechRecognition({ setOptimizedText }) {
 
   return (
     <div>
-      <div className={styles.panelHeader}>
-        <h2 className={styles.heading}>
+      <div className={baseStyles.panelHeader}>
+        <h2 className={baseStyles.heading}>
           <i className="fas fa-microphone"></i> Voice Recognition
         </h2>
       </div>
