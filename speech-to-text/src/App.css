@@ -79,7 +79,6 @@ body::after {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
   position: relative;
   height: calc(100vh - 160px); /* 这里限制了高度 */
   display: grid;
@@ -197,7 +196,7 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px;
+  padding: 10px;
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
