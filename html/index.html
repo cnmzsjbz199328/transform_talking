@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>语音转文字与优化</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <h2>语音转录</h2>
+            <button id="startBtn">开始录音</button>
+            <button id="stopBtn" disabled>停止录音</button>
+            <div id="transcript" class="transcript-box"></div>
+            <p>单词数: <span id="wordCount">0</span></p>
+        </div>
+        <div class="right-panel">
+            <h2>优化结果</h2>
+            <div id="optimized" class="optimized-box"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
