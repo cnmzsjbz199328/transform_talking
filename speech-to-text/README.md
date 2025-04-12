@@ -1,70 +1,94 @@
-# Getting Started with Create React App
+# LazyDog - Interactive Mindmap Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a React application that provides interactive mindmap functionality using Mermaid.js for visualization and Zhipu AI for content generation.
 
-## Available Scripts
+## Project Overview
 
-In the project directory, you can run:
+LazyDog allows users to create and interact with mindmaps in a dynamic way:
 
-### `npm start`
+- Click on any node to expand it with AI-generated content
+- Visualize complex relationships in an organized structure
+- Seamlessly integrate AI-generated content with existing mindmaps
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Interactive Mindmaps:** Click on nodes to expand them with more detailed content
+- **Mermaid.js Integration:** Uses Mermaid.js for rendering mindmaps
+- **AI-Powered Content Generation:** Leverages Zhipu AI for intelligent node expansion
+- **Context-Aware Suggestions:** Generates content based on surrounding nodes and context
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- Node.js (v14+)
+- npm or yarn
+- Zhipu AI API key
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/lazydog.git
+   cd lazydog
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-### `npm run eject`
+3. Configure your Zhipu AI API key in the environment variables.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Running the Application
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Start the development server:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The application will be available at http://localhost:3000.
+
+### Building for Production
+
+Create a production build:
+
+```bash
+npm run build
+```
+
+The build files will be created in the `build` folder, ready for deployment.
+
+## Project Structure
+
+- **public/** - Static assets and HTML template
+- **src/** - Source code
+  - **components/** - React components
+  - **services/** - API integration and services
+  - **hooks/** - Custom React hooks
+  - **utils/** - Utility functions
+
+## Implementation Plan
+
+The project implements an interactive mindmap that follows this implementation plan:
+
+1. **Enhanced Mindmap Rendering** - Making nodes clickable with visual feedback
+2. **Node Data Extraction** - Converting Mermaid format to structured node trees
+3. **Context Information Collection** - Gathering relevant information for AI processing
+4. **API Integration** - Connecting with Zhipu AI for content generation
+5. **Mindmap Update & Merging** - Seamlessly integrating new content with existing maps
+6. **UI/UX Enhancements** - Creating a fluid user experience with loading indicators
+
+## Technologies Used
+
+- React
+- Mermaid.js
+- Font Awesome
+- Zhipu AI API
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+For more information about React development, check out the [React documentation](https://reactjs.org/).
