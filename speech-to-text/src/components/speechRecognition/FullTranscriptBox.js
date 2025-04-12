@@ -12,12 +12,13 @@ const FullTranscriptBox = ({ fullTranscript, wordCount, threshold = 200, onThres
   // 当文本更新时，自动滚动到底部
   React.useEffect(() => {
     if (transcriptRef.current) {
+      // 确保滚动到底部
       transcriptRef.current.scrollTop = transcriptRef.current.scrollHeight;
     }
   }, [fullTranscript]);
   
   return (
-    <div className={styles.fullTranscriptContainer}>
+    <div className={styles.fullTranscriptContainer} style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
       <div className={styles.transcriptHeader}>
         <div className={progressStyles.headerLeft}>
           <h3 className={baseStyles.subHeading}>Full Transcript</h3>
@@ -52,6 +53,7 @@ const FullTranscriptBox = ({ fullTranscript, wordCount, threshold = 200, onThres
       <div
         ref={transcriptRef}
         className={styles.fullTranscript}
+        style={{ flex: '1', minHeight: '150px' }}
       >
         {fullTranscript || "No transcript available yet. Start speaking to see your words here."}
       </div>

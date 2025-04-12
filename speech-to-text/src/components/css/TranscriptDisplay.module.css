@@ -119,13 +119,17 @@
 }
 
 .fullTranscriptContainer {
-  max-height: 200px;
-  overflow-y: auto; /* 关键属性：启用垂直滚动 */
-  border: 1px solid #ddd;
+  /* 移除 max-height 限制 */
+  /* max-height: 250px; */
+  display: flex;
+  flex-direction: column;
+  flex: 1;  /* 允许容器伸展填充剩余空间 */
+  overflow-y: visible; /* 不限制垂直溢出 */
+  border: 1px solid var(--light-gray);
   border-radius: var(--border-radius);
-  background-color: #f9f9f9;
-  margin-bottom: 10px;
-  position: relative; /* 添加相对定位 */
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
 }
 
 /* 自定义滚动条样式 */
@@ -152,4 +156,91 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 10px;
+}
+
+.currentTranscriptContainer {
+  margin-bottom: 20px;
+}
+
+.currentTranscript {
+  width: 100%;
+  border-radius: var(--border-radius);
+  background-color: rgba(255, 255, 255, 0.5);
+  font-size: 1rem;
+  line-height: 1.5;
+  position: relative;
+  height: auto;
+  min-height: 50px;
+  color: #495057;
+  border: 1px dashed var(--border-color);
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.currentTranscript.active {
+  animation: fadeIn 0.2s ease-in;
+}
+
+/* 确保全部文本区域有固定高度和垂直滚动 */
+.fullTranscript {
+  width: 100%;
+  padding: 15px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #495057;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  border: 1px dashed var(--border-color);
+  margin-bottom: 0; /* 移除底部边距 */
+  
+  /* 允许伸展填充容器 */
+  flex: 1;
+  min-height: 150px; /* 设置最小高度而非固定高度 */
+  height: auto; /* 自动高度 */
+  overflow-y: auto; /* 启用垂直滚动 */
+}
+
+/* 吉卜力风格的滚动条 - 特别为fullTranscript定制 */
+.fullTranscript::-webkit-scrollbar {
+  width: 8px;
+}
+
+.fullTranscript::-webkit-scrollbar-track {
+  background: rgba(230, 215, 184, 0.3);
+  border-radius: 8px;
+}
+
+.fullTranscript::-webkit-scrollbar-thumb {
+  background: rgba(122, 158, 159, 0.5);
+  border-radius: 8px;
+  border: 2px solid rgba(230, 215, 184, 0.3);
+}
+
+.fullTranscript::-webkit-scrollbar-thumb:hover {
+  background: rgba(122, 158, 159, 0.7);
+}
+
+/* 以花朵标题装饰 */
+.heading {
+  font-size: 1.2rem;
+  color: var(--primary);
+  margin-bottom: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.heading::before {
+  content: "✿";
+  margin-right: 8px;
+  color: var(--accent);
+}
+
+.wordCount {
+  font-size: 0.9rem;
+  color: #a39081;
+  margin-bottom: 10px;
+  font-style: italic;
 }

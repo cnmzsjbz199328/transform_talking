@@ -39,7 +39,11 @@ function SpeechRecognition({ setOptimizedText }) {
   };
 
   return (
-    <div>
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      height: '100%' // 确保组件占满父容器高度
+    }}>
       <div className={baseStyles.panelHeader}>
         <h2 className={baseStyles.heading}>
           <i className="fas fa-microphone"></i> Voice Recognition
@@ -59,13 +63,16 @@ function SpeechRecognition({ setOptimizedText }) {
         transcriptKey={transcriptKey} 
       />
       
-      <FullTranscriptBox 
-        fullTranscript={fullTranscript} 
-        wordCount={wordCount}
-        threshold={wordThreshold}
-        onThresholdChange={handleThresholdChange}
-        isListening={isListening}
-      />
+      {/* 添加 style 使其填充剩余空间 */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '200px' }}>
+        <FullTranscriptBox 
+          fullTranscript={fullTranscript} 
+          wordCount={wordCount}
+          threshold={wordThreshold}
+          onThresholdChange={handleThresholdChange}
+          isListening={isListening}
+        />
+      </div>
     </div>
   );
 }

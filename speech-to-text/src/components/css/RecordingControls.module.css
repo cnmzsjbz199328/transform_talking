@@ -9,7 +9,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
   font-size: 15px;
   font-weight: 500;
   border-radius: var(--border-radius);
@@ -31,15 +30,17 @@
 
 .startButton:hover:not(:disabled) {
   background-color: var(--secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(78, 110, 242, 0.2);
 }
 
 .stopButton {
-  background-color: #e63946;
+  background-color: #ff6b6b;
   color: white;
 }
 
 .stopButton:hover:not(:disabled) {
-  background-color: #d62828;
+  background-color: #fa5252;
 }
 
 .buttonDisabled {
@@ -51,7 +52,7 @@
   display: flex;
   align-items: center;
   font-weight: 500;
-  color: #e63946;
+  color: #ff6b6b;
   margin: 10px 0;
 }
 
@@ -60,7 +61,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #e63946;
+  background: #ff6b6b;
   margin-right: 10px;
   animation: pulse 1.5s infinite;
 }
@@ -68,14 +69,14 @@
 @keyframes pulse {
   0% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7);
+    box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
   }
   70% {
     transform: scale(1);
-    box-shadow: 0 0 0 10px rgba(230, 57, 70, 0);
+    box-shadow: 0 0 0 10px rgba(255, 107, 107, 0);
   }
   100% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(230, 57, 70, 0);
+    box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
   }
 }

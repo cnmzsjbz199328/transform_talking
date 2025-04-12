@@ -94,7 +94,7 @@ return (
                 className={styles.saveButton}
                 disabled={editedBackground.trim() === savedBackground}
             >
-                <i className="fas fa-save"></i> Save Background Information
+                <i className="fas fa-save"></i> Save
             </button>
         </div>
         

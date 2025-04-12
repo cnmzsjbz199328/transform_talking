@@ -30,13 +30,15 @@ function App() {
       <div className="App">
         <div className="header">
           <h1>LazyDog</h1>
-          <p>Speech Recognition & Text Optimization</p>
         </div>
         
         <div className="container">
           <ContentDisplay />
           
-          <SpeechRecognition setOptimizedText={setOptimizedText} />
+          {/* 添加新的样式包装 */}
+          <div className="speechPanel">
+            <SpeechRecognition setOptimizedText={setOptimizedText} />
+          </div>
           
           <div className="rightPanel">
             <OptimizedText optimizedText={optimizedText} />
