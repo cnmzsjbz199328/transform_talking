@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './css/MindMap.module.css';
 import { generateMindMap } from '../utils/MindMapUtil';
+import Modal from './Modal';
 
 /**
  * MindMap Component
@@ -8,10 +9,12 @@ import { generateMindMap } from '../utils/MindMapUtil';
  */
 const MindMap = ({ content, mainPoint }) => {
   const containerRef = useRef(null);
+  const modalContentRef = useRef(null);
   const [error, setError] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [svgContent, setSvgContent] = useState('');
-  const [currentMapSource, setCurrentMapSource] = useState('default'); // Track the source of current map
+  const [currentMapSource, setCurrentMapSource] = useState('default');
+  const [showModal, setShowModal] = useState(false); // 控制模态框显示状态
 
   // Default mind map data (only used when no content is available)
   const defaultMindMapContent = `flowchart TD
@@ -25,9 +28,9 @@ const MindMap = ({ content, mainPoint }) => {
     visual --> themes["Theme Colors"]
     visual --> shapes["Node Shapes"]`;
 
-  // Convert mindmap format to vertical tree format (flowchart TD)
+  // 转换mindmap格式为垂直树形格式(flowchart TD)
   const convertToVerticalTreeFormat = useCallback((content) => {
-    // Only convert if it's in mindmap format
+    // 只转换mindmap格式
     if (content.includes('mindmap')) {
       console.log("Converting from mindmap to flowchart format...");
       
@@ -37,10 +40,10 @@ const MindMap = ({ content, mainPoint }) => {
       let nodeCounter = 0;
       let lastNodeAtLevel = {};
       
-      // Skip mindmap line, keep non-empty lines
+      // 跳过mindmap行，保留非空行
       lines = lines.filter(line => line.trim() !== 'mindmap' && line.trim() !== '');
       
-      // First identify the root node
+      // 首先识别根节点
       let rootNodeId = null;
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -74,26 +77,26 @@ const MindMap = ({ content, mainPoint }) => {
         rootNodeId = defaultRootId;
       }
       
-      // Process remaining nodes
+      // 处理剩余节点
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         const indent = line.search(/\S|$/);
-        // Calculate level: every 2 spaces is one level
+        // 计算层级：每2个空格算一级
         const level = indent === 0 ? 1 : Math.ceil(indent / 2); 
         const text = line.trim();
         
         if (!text) continue;
         
-        // Create node ID
+        // 创建节点ID
         const nodeId = `node${nodeCounter++}`;
         
-        // Store current node
+        // 存储当前节点
         nodeMap[nodeId] = { level, text };
         
-        // Find parent node (last node at previous level)
+        // 查找父节点(上一级的最后一个节点)
         let parentId = null;
         
-        // Look for nearest parent node
+        // 查找最近的父节点
         for (let l = level - 1; l >= 0; l--) {
           if (lastNodeAtLevel[l]) {
             parentId = lastNodeAtLevel[l];
@@ -101,15 +104,15 @@ const MindMap = ({ content, mainPoint }) => {
           }
         }
         
-        // If no parent found, connect to root node
+        // 如果没有找到父节点，连接到根节点
         if (!parentId) {
           parentId = rootNodeId;
         }
         
-        // Add connection
+        // 添加连接
         result.push(`    ${parentId} --> ${nodeId}["${text}"]`);
         
-        // Update last node at current level
+        // 更新当前级别的最后一个节点
         lastNodeAtLevel[level] = nodeId;
       }
       
@@ -119,29 +122,29 @@ const MindMap = ({ content, mainPoint }) => {
       return flowchartCode;
     }
     
-    // If neither flowchart nor mindmap, return as is
+    // 如果既不是flowchart也不是mindmap，按原样返回
     return content;
-  }, [mainPoint]); // correctly includes mainPoint as dependency
+  }, [mainPoint]);
 
-  // Ensure flowchart TD format
+  // 确保flowchart TD格式
   const ensureFlowchartFormat = useCallback((content) => {
-    // If already in flowchart format, return as is
+    // 如果已经是flowchart格式，则按原样返回
     if (content.includes('flowchart TD')) {
       return content;
     }
     
     return convertToVerticalTreeFormat(content);
-  }, [convertToVerticalTreeFormat]); // Fix #1: Add convertToVerticalTreeFormat as dependency
+  }, [convertToVerticalTreeFormat]);
 
-  // Render mind map with improved cleanup and state management
-  const handleRenderMindMap = useCallback((code) => {
+  // 使用改进的清理和状态管理渲染思维导图
+  const handleRenderMindMap = useCallback((code, targetRef) => {
     if (!code) return;
     
-    // Ensure code format is consistent
+    // 确保代码格式一致
     const formattedCode = ensureFlowchartFormat(code);
     
-    // Clear previous content before rendering
-    setSvgContent('');
+    // 渲染前清除先前的内容
+    if (!targetRef) return;
     
     if (window.mermaid) {
       try {
@@ -149,11 +152,22 @@ const MindMap = ({ content, mainPoint }) => {
         
         console.log("Rendering diagram with code:", formattedCode.substring(0, 50) + "...");
         
-        // Small delay to ensure DOM is cleared
+        // 小延迟确保DOM已清除
         setTimeout(() => {
           window.mermaid.render(uniqueId, formattedCode)
             .then(({ svg }) => {
-              setSvgContent(svg);
+              if (targetRef === containerRef) {
+                setSvgContent(svg);
+              } else if (targetRef.current) {
+                targetRef.current.innerHTML = svg;
+                
+                // 放大模态框中的SVG
+                const svgElement = targetRef.current.querySelector('svg');
+                if (svgElement) {
+                  svgElement.style.width = '100%';
+                  svgElement.style.height = '100%';
+                }
+              }
             })
             .catch(err => {
               console.error('Mind map rendering error:', err);
@@ -165,20 +179,20 @@ const MindMap = ({ content, mainPoint }) => {
         setError('Failed to render mind map');
       }
     }
-  }, [ensureFlowchartFormat]); // Fix #2: Add ensureFlowchartFormat as dependency
+  }, [ensureFlowchartFormat]);
 
-  // Main effect for generating mind map when content or mainPoint changes
+  // 当内容或主要点变更时生成思维导图的主要效果
   useEffect(() => {
-    // Reset error state on new content
+    // 重置错误状态
     setError(null);
     
     const generateMap = async () => {
-      // Check if we have content to generate a map
+      // 检查是否有内容可生成导图
       if (!content || !mainPoint) {
         console.log("No content or main point, using default mind map");
         if (currentMapSource !== 'default') {
           setCurrentMapSource('default');
-          handleRenderMindMap(defaultMindMapContent);
+          handleRenderMindMap(defaultMindMapContent, containerRef);
         }
         return;
       }
@@ -187,22 +201,22 @@ const MindMap = ({ content, mainPoint }) => {
         setIsProcessing(true);
         console.log("Generating mind map for:", mainPoint);
         
-        // Use MindMapUtil to generate mind map
+        // 使用 MindMapUtil 生成思维导图
         let mapCode = await generateMindMap(content, mainPoint, setIsProcessing);
         console.log("Original generated code format:", 
                     mapCode.substring(0, 20) + "...");
         
         setCurrentMapSource('generated');
-        handleRenderMindMap(mapCode);
+        handleRenderMindMap(mapCode, containerRef);
       } catch (err) {
         console.error('Failed to generate mind map:', err);
         setError('Unable to generate mind map. Please try again later.');
         
-        // Show simple error mind map
+        // 显示简单的错误思维导图
         const fallbackMap = `flowchart TD
           root["${mainPoint || 'Content Overview'}"] --> err["Unable to process"]
           err --> retry["Please try again"]`;
-        handleRenderMindMap(fallbackMap);
+        handleRenderMindMap(fallbackMap, containerRef);
       } finally {
         setIsProcessing(false);
       }
@@ -211,11 +225,11 @@ const MindMap = ({ content, mainPoint }) => {
     generateMap();
   }, [content, mainPoint, defaultMindMapContent, handleRenderMindMap, currentMapSource]);
 
-  // Initialize mermaid library
+  // 初始化 mermaid 库
   useEffect(() => {
-    // Check if mermaid is already available globally
+    // 检查 mermaid 是否已全局可用
     if (!window.mermaid) {
-      // If not, add script tag to load it
+      // 如果没有，添加脚本标签来加载它
       const script = document.createElement('script');
       script.src = 'https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js';
       script.async = true;
@@ -224,7 +238,7 @@ const MindMap = ({ content, mainPoint }) => {
         if (window.mermaid) {
           console.log("Mermaid library loaded successfully");
           window.mermaid.initialize({
-            startOnLoad: false, // We'll handle rendering manually
+            startOnLoad: false, // 我们将手动处理渲染
             theme: 'default',
             flowchart: {
               curve: 'basis',
@@ -235,15 +249,12 @@ const MindMap = ({ content, mainPoint }) => {
             },
             securityLevel: 'loose'
           });
-          
-          // Let the main useEffect handle rendering
-          // This prevents duplicate renders
         }
       };
       
       document.body.appendChild(script);
     } else {
-      // If already exists, just initialize
+      // 如果已存在，只初始化
       window.mermaid.initialize({
         startOnLoad: false,
         theme: 'default',
@@ -257,13 +268,59 @@ const MindMap = ({ content, mainPoint }) => {
         securityLevel: 'loose'
       });
     }
-  }, []); // Only run once on mount
+  }, []);
+
+  // 控制模态框打开时阻止页面滚动
+  useEffect(() => {
+    if (showModal) {
+      // 当模态框打开时，阻止背景页面滚动
+      document.body.style.overflow = 'hidden';
+    } else {
+      // 当模态框关闭时，恢复页面滚动
+      document.body.style.overflow = 'auto';
+    }
+    
+    return () => {
+      // 组件卸载时恢复滚动
+      document.body.style.overflow = 'auto';
+    };
+  }, [showModal]);
+
+  // 打开模态框时，渲染放大版的思维导图
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  // 当模态框显示时，重新渲染思维导图到模态框中
+  useEffect(() => {
+    if (showModal && modalContentRef.current) {
+      // 获取当前的思维导图代码
+      const currentCode = svgContent 
+        ? (window.mermaid && window.mermaid.mermaidAPI.getConfig().currentCode) || defaultMindMapContent
+        : defaultMindMapContent;
+        
+      // 延迟渲染，确保模态框完全显示
+      setTimeout(() => {
+        handleRenderMindMap(currentCode, modalContentRef);
+      }, 300);
+    }
+  }, [showModal, handleRenderMindMap, svgContent, defaultMindMapContent]);
 
   return (
     <div className={styles.container}>
       <h2 className={styles.heading}>
         <i className="fas fa-project-diagram"></i> Mind Map
       </h2>
+      
+      {/* 放大按钮 */}
+      <button 
+        className={styles.expandButton} 
+        onClick={openModal}
+        title="Expand Mind Map"
+        aria-label="Expand Mind Map"
+      >
+        <i className="fas fa-expand-alt"></i>
+      </button>
       
       {isProcessing && (
         <div className={styles.processingIndicator}>
@@ -277,11 +334,9 @@ const MindMap = ({ content, mainPoint }) => {
         </div>
       )}
       
-      {/* Use clean container approach - only render SVG when content is available */}
       <div 
         ref={containerRef} 
         className={styles.mindMapContent}
-        style={{ minHeight: '300px', width: '100%' }}
       >
         {svgContent ? (
           <div dangerouslySetInnerHTML={{ __html: svgContent }} />
@@ -291,6 +346,24 @@ const MindMap = ({ content, mainPoint }) => {
           </div>
         )}
       </div>
+
+      {/* 使用独立的模态框组件 */}
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        title="Mind Map"
+      >
+        <div 
+          ref={modalContentRef}
+          className={styles.modalMindMapContent}
+        >
+          {isProcessing ? (
+            <div className={styles.processingIndicator}>
+              <i className="fas fa-spinner fa-spin"></i> Generating mind map...
+            </div>
+          ) : null}
+        </div>
+      </Modal>
     </div>
   );
 };
