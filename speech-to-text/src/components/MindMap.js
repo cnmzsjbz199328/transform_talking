@@ -286,25 +286,59 @@ const MindMap = ({ content, mainPoint }) => {
     };
   }, [showModal]);
 
-  // 打开模态框时，渲染放大版的思维导图
+  // 打开模态框时，设置标志并准备复制内容
   const openModal = () => {
     setShowModal(true);
   };
 
-  // 当模态框显示时，重新渲染思维导图到模态框中
+  // 使用 useEffect 监听模态框显示状态，一次性复制内容
   useEffect(() => {
+    // 仅在模态框显示且 modalContentRef 存在时进行处理
     if (showModal && modalContentRef.current) {
-      // 获取当前的思维导图代码
-      const currentCode = svgContent 
-        ? (window.mermaid && window.mermaid.mermaidAPI.getConfig().currentCode) || defaultMindMapContent
-        : defaultMindMapContent;
-        
-      // 延迟渲染，确保模态框完全显示
-      setTimeout(() => {
-        handleRenderMindMap(currentCode, modalContentRef);
-      }, 300);
+      // 清空之前的内容
+      modalContentRef.current.innerHTML = '';
+      
+      // 延迟一小段时间以确保 DOM 稳定
+      const timer = setTimeout(() => {
+        if (svgContent) {
+          // 直接复制当前 SVG 内容，不触发新的渲染
+          modalContentRef.current.innerHTML = svgContent;
+          
+          // 调整模态框中 SVG 的尺寸
+          const modalSvg = modalContentRef.current.querySelector('svg');
+          if (modalSvg) {
+            modalSvg.style.width = '100%';
+            modalSvg.style.height = 'auto';
+            modalSvg.style.maxHeight = '100%';
+          }
+        } else if (defaultMindMapContent && window.mermaid) {
+          // 如果没有 SVG 内容但有默认内容，则使用默认内容
+          const uniqueId = `modal-mindmap-${Date.now()}`;
+          const formattedCode = ensureFlowchartFormat(defaultMindMapContent);
+          
+          // 渲染默认内容
+          window.mermaid.render(uniqueId, formattedCode)
+            .then(({ svg }) => {
+              if (modalContentRef.current) {
+                modalContentRef.current.innerHTML = svg;
+                
+                // 调整 SVG 尺寸
+                const svgElement = modalContentRef.current.querySelector('svg');
+                if (svgElement) {
+                  svgElement.style.width = '100%';
+                  svgElement.style.height = '100%';
+                }
+              }
+            })
+            .catch(err => {
+              console.error('Modal mind map rendering error:', err);
+            });
+        }
+      }, 100);
+      
+      return () => clearTimeout(timer);
     }
-  }, [showModal, handleRenderMindMap, svgContent, defaultMindMapContent]);
+  }, [showModal, svgContent, defaultMindMapContent, ensureFlowchartFormat]);
 
   return (
     <div className={styles.container}>
