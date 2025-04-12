@@ -37,14 +37,17 @@
   word-break: break-word;
 }
 
+/* 确保光标样式正确设置 */
 .cursor {
   display: inline-block;
-  width: 10px;
+  width: 2px; /* 更细的光标 */
   height: 20px;
-  background-color: #000000;
+  background-color: #5c8d89; /* 吉卜力风格的颜色 */
   animation: blink 1s infinite;
   vertical-align: middle;
   margin-left: 2px;
+  position: relative;
+  top: -1px; /* 微调光标位置 */
 }
 
 @keyframes blink {
@@ -162,6 +165,7 @@
   margin-bottom: 20px;
 }
 
+/* 为当前语音添加平滑过渡效果 */
 .currentTranscript {
   width: 100%;
   border-radius: var(--border-radius);
@@ -169,16 +173,31 @@
   font-size: 1rem;
   line-height: 1.5;
   position: relative;
-  height: auto;
-  min-height: 50px;
+  height: 60px; /* 固定高度 */
+  min-height: 60px;
   color: #495057;
   border: 1px dashed var(--border-color);
   padding: 15px;
   margin-bottom: 20px;
+  transition: all 0.2s ease;
+  white-space: nowrap; /* 防止文本换行 */
+  overflow-x: auto; /* 启用水平滚动 */
+  overflow-y: hidden; /* 禁用垂直滚动 */
+  
+  /* 隐藏滚动条但保留功能 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* 隐藏 WebKit/Chrome 滚动条 */
+.currentTranscript::-webkit-scrollbar {
+  display: none;
 }
 
 .currentTranscript.active {
   animation: fadeIn 0.2s ease-in;
+  border-color: #5c8d89;
+  box-shadow: 0 0 5px rgba(92, 141, 137, 0.3);
 }
 
 /* 确保全部文本区域有固定高度和垂直滚动 */
@@ -243,4 +262,11 @@
   color: #a39081;
   margin-bottom: 10px;
   font-style: italic;
+}
+
+/* 文本容器，用于包装文本和光标 */
+.textWithCursor {
+  display: inline-block;
+  white-space: nowrap;
+  position: relative;
 }
