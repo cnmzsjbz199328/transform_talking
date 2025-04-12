@@ -1,7 +1,13 @@
 import { callAI, formatResponse } from '../services/aiManagement';
-import { saveContentToLocalStorage } from '../utils/write';
+import { saveContentToLocalStorage } from './write';
 
 export const optimizeText = async (text, setOptimizedText, apiType, backgroundInfo = '') => {
+  // 验证输入文本
+  if (!text || text.trim().length === 0) {
+    console.warn('Empty text provided to optimizeText, operation cancelled');
+    return null;
+  }
+  
   // 构建提示模板
   let promptText = `Please optimize the following transcribed text to make it smoother, more natural, and correct any errors, and return the result as a valid JSON string in the format { "content": "Optimized text", "mainPoint": "Main point" } without any Markdown or extra characters:\n${text}`;
   
@@ -23,6 +29,25 @@ export const optimizeText = async (text, setOptimizedText, apiType, backgroundIn
     
     // 验证和处理 JSON
     const parsedJson = JSON.parse(optimizedText);
+    
+    // 添加额外的验证 - 确保不保存无意义的内容
+    if (!parsedJson.content || !parsedJson.mainPoint || 
+        parsedJson.content.trim() === '' || 
+        parsedJson.mainPoint.trim() === '' ||
+        parsedJson.mainPoint === 'Mind Map' ||
+        parsedJson.content === 'No Content' ||
+        parsedJson.mainPoint === 'No main point') {
+      console.warn('AI returned invalid or empty content:', parsedJson);
+      
+      // 返回错误格式
+      const errorJson = JSON.stringify({
+        content: "Generated content was invalid. Please try again with a longer speech input.",
+        mainPoint: "Generation Failed"
+      });
+      
+      setOptimizedText(errorJson);
+      return errorJson;
+    }
     
     // 保存结果
     const resultJson = JSON.stringify(parsedJson);

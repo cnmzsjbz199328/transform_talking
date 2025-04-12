@@ -1,5 +1,5 @@
 import { callAI, formatResponse } from '../services/aiManagement';
-import { saveContentToLocalStorage } from '../utils/write';
+import { saveContentToLocalStorage } from './write';
 
 // Add caching functionality to reduce repeated calls
 const getMindMapFromCache = (content, mainPoint) => {

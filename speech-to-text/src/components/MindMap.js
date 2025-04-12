@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './css/MindMap.module.css';
-import { generateMindMap } from './MindMapUtil';
+import { generateMindMap } from '../utils/MindMapUtil';
 
 /**
  * MindMap Component

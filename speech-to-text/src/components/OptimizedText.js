@@ -47,7 +47,7 @@ function OptimizedText({ optimizedText }) {
         {activeTab === 'content' && (
           <div className={styles.tabContent}>
             <div className={styles.contentBox}>
-              {parsedContent ? parsedContent.content : 'No optimized content available'}
+              {parsedContent ? parsedContent.content : ''}
               <button 
                 className={styles.copyButton}
                 onClick={() => parsedContent && handleCopy(parsedContent.content)}
@@ -61,7 +61,7 @@ function OptimizedText({ optimizedText }) {
         {activeTab === 'main' && (
           <div className={styles.tabContent}>
             <div className={styles.contentBox}>
-              {parsedContent ? parsedContent.mainPoint : 'No key points available'}
+              {parsedContent ? parsedContent.mainPoint : ''}
               <button 
                 className={styles.copyButton}
                 onClick={() => parsedContent && handleCopy(parsedContent.mainPoint)}

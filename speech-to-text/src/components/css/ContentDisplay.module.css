@@ -136,3 +136,17 @@
   font-size: 0.95rem;
   line-height: 1.5;
 }
+
+/* 添加更新指示器样式 */
+.updateIndicator {
+  font-size: 0.7rem;
+  color: var(--gray);
+  margin-left: 10px;
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

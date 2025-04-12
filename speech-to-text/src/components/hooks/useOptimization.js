@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { optimizeText } from '../utils';
+import { optimizeText } from '../../utils/utils';
 
 const useOptimization = (setOptimizedText, savedBackgroundRef) => {
   // 优化逻辑包装为useCallback

@@ -9,8 +9,8 @@ import './App.css';
 function App() {
   const [optimizedText, setOptimizedText] = useState(null);
   const [parsedContent, setParsedContent] = useState({
-    content: "Mind Map",
-    mainPoint: "Mind Map"
+    content: "",
+    mainPoint: ""
   });
 
   // Parse content when optimized text is updated

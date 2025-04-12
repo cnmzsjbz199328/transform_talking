@@ -2,8 +2,10 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 
 /**
  * 自定义 Hook 处理语音识别的核心逻辑
+ * @param {function} handleOptimization - 优化处理函数
+ * @param {number} wordThreshold - 触发优化的字数阈值
  */
-const useSpeechRecognition = (handleOptimization) => {
+const useSpeechRecognition = (handleOptimization, wordThreshold = 200) => {
   const [currentTranscript, setCurrentTranscript] = useState('');
   const [fullTranscript, setFullTranscript] = useState('');
   const [wordCount, setWordCount] = useState(0);
@@ -14,6 +16,15 @@ const useSpeechRecognition = (handleOptimization) => {
   const optimizationInProgressRef = useRef(false);
   const accumulatedTranscriptRef = useRef('');
   const isListeningRef = useRef(false);
+  
+  // 使用ref来存储阈值，这样不需要重新创建事件处理函数
+  const wordThresholdRef = useRef(wordThreshold);
+
+  // 当阈值变化时更新ref
+  useEffect(() => {
+    wordThresholdRef.current = wordThreshold;
+    console.log('Word threshold updated:', wordThreshold);
+  }, [wordThreshold]);
 
   // 当isListening状态变化时，同步更新ref值
   useEffect(() => {
@@ -88,9 +99,9 @@ const useSpeechRecognition = (handleOptimization) => {
 
         console.log('Full Transcript:', accumulatedTranscriptRef.current);
         
-        // 检查是否达到优化标准
+        // 使用ref中的阈值进行检查
         if (!optimizationInProgressRef.current && 
-            words.length >= 200 && 
+            words.length >= wordThresholdRef.current && 
             accumulatedTranscriptRef.current.includes('.')) {
           
           // 达到优化标准时处理当前文本
